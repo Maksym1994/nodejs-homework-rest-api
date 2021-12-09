@@ -1,4 +1,5 @@
 const { Schema, model } = require('mongoose');
+const mongoosePaginate = require('mongoose-paginate-v2');
 const Joi = require('joi');
 
 const nameRegexp = /^([a-zA-Z]{2,}\s[a-zA-Z]{1,}'?-?[a-zA-Z]{2,}\s?([a-zA-Z]{1,})?)/;
@@ -22,7 +23,12 @@ const contactSchema = Schema({
     favorite: {
       type: Boolean,
       default: false,
-    },
+  },
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: 'user',
+      required: true,
+  },
   }
     , { versionKey: false, timestamps: true });
 
@@ -36,6 +42,7 @@ const contactJoiSchema = Joi.object({
 const favoriteJoiSchema = Joi.object({
      favorite: Joi.boolean().required(),
 });
+contactSchema.plugin(mongoosePaginate);
 
 const Contact = model('contact', contactSchema);
 
