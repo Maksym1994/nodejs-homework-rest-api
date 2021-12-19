@@ -13,5 +13,7 @@ router.get('/current', auth, ctrlWrapper(ctrl.getCurrent));
 router.patch('/', auth, validation(updateSubscription),
     ctrlWrapper(ctrl.updateSubscription));
 router.patch('/avatars', auth, uploadAvatar.single('avatar'),
-ctrlWrapper(ctrl.addUserAvatar))
+    ctrlWrapper(ctrl.addUserAvatar));
+router.get('/verify/:verificationToken', ctrlWrapper(ctrl.verifyEmail));
+router.post('/verify', ctrlWrapper(ctrl.verifyRepeat));
 module.exports = router;

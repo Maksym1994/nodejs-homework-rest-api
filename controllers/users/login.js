@@ -1,4 +1,4 @@
-const { Unauthorized } = require("http-errors");
+const { Unauthorized, NotFound } = require("http-errors");
 const jwt = require("jsonwebtoken");
 const { User } = require('../../model/user');
 
@@ -10,6 +10,9 @@ const login = async (req, res) => {
     if (!user || !user.comparePassword(password)) {
         throw new Unauthorized('Email or password is wrong');
     }
+    if (user.verify) {
+		throw new NotFound('Такого пользователя нет');
+	}
     const payload = {
         id: user._id
     }
